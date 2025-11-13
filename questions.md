@@ -5,34 +5,38 @@
 ### Question 1
 **What is the purpose of the `@app.route('/health')` decorator in the code?**
 
-The `@app.route('/health')` decorator maps the URL path `/health` to the `health_check()` function. When a user or monitoring system visits `http://127.0.0.1:5000/health`, Flask will execute the `health_check()` function and return "Server is running!" with a 200 status code. This endpoint is commonly used for health monitoring and to verify that the server is operational.
+The `@app.route('/health')` part basically tells Flask "hey, when someone goes to /health, run this function". So when you open `http://127.0.0.1:5000/health` in your browser, it just shows "Server is running" to let you know everything's working. It's like a quick way to check if your server is alive or not.
 
 ---
 
 ### Question 2
 **In Jinja2, what is the difference between `{{ my_variable }}` and `{% for item in my_list %}`?**
 
-- `{{ my_variable }}` is used to **output/print** the value of a variable or expression directly into the HTML. It evaluates the expression and displays the result.
+- `{{ my_variable }}` - This one just prints out whatever is in the variable right onto the page. Like if my_variable is "Hello", it'll show "Hello" in the HTML.
 
-- `{% for item in my_list %}` is a **control flow statement** used for logic operations like loops, conditionals, and blocks. It does not directly output content but controls the structure and flow of the template. The `{% %}` syntax is used for statements like `for`, `if`, `endif`, `endfor`, etc.
+- `{% for item in my_list %}` - This is for doing loops and if statements and stuff like that. It doesn't print anything by itself, it just controls what happens. You need to close it with `{% endfor %}` too.
+
+Basically, double curly braces `{{ }}` = print stuff, and curly-percent `{% %}` = do programming logic stuff.
 
 ---
 
 ### Question 3
 **In `app.py`, why is it important to use `(?, ?)` and pass the variables as a tuple in the `conn.execute()` command instead of using f-strings to put the variables directly into the SQL string? What is this technique called?**
 
-Using `(?, ?)` with parameters passed as a tuple is called **parameterized queries** or **prepared statements**. This technique is critical for preventing **SQL injection attacks**. 
+This is called "parameterized queries" and it's super important for security! 
 
-If we used f-strings like `f"INSERT INTO messages (name, message) VALUES ('{name}', '{message}')"`, a malicious user could input SQL code (e.g., `'; DROP TABLE messages; --`) that would be executed directly against the database, potentially destroying data or compromising security. Parameterized queries ensure that user input is treated as data, not executable code, by properly escaping special characters.
+If I just put the variables directly into the SQL string like `f"INSERT INTO messages (name, message) VALUES ('{name}', '{message}')"`, someone could type in weird SQL code and mess up my database. Like they could literally delete my whole messages table if they wanted to! That's called SQL injection and it's really bad.
+
+Using the `?` placeholders and passing values separately keeps the user input safe because it treats everything as just text data, not code that could run.
 
 ---
 
 ### Question 4
 **What is the purpose of `event.preventDefault()` in the JavaScript code? What would happen if you removed that line?**
 
-`event.preventDefault()` prevents the browser's default form submission behavior, which would normally cause a full page reload and send the form data via a traditional HTTP POST request.
+`event.preventDefault()` stops the form from doing its normal thing, which is refreshing the whole page when you click submit.
 
-If you removed `event.preventDefault()`, the form would submit normally (reloading the page) AND the JavaScript fetch request would also execute, resulting in duplicate submissions to the server. The AJAX functionality would be broken because the page would reload before the JavaScript could handle the response properly.
+If I removed it, the page would reload AND my JavaScript code would also try to send the message at the same time. So basically the message would get sent twice, and the page would refresh so fast that my JavaScript wouldn't even get a chance to show if it worked or not. The whole AJAX thing wouldn't work properly.
 
 ---
 
@@ -41,9 +45,9 @@ If you removed `event.preventDefault()`, the form would submit normally (reloadi
 ### Question 5
 **In the `Dockerfile`, why is the `CMD` `["flask", "run", "--host=0.0.0.0"]` necessary? Why wouldn't the default `flask run` (which uses host 127.0.0.1) work?**
 
-By default, Flask binds to `127.0.0.1` (localhost), which only accepts connections from within the same machine/container. When running in a Docker container, we need external access from the host machine.
+So by default, Flask only listens to connections from inside the same computer (127.0.0.1 means localhost). But when it's running in a Docker container, that's like its own little computer, and I'm trying to access it from outside the container.
 
-Using `--host=0.0.0.0` tells Flask to listen on all network interfaces, making the application accessible from outside the container. Without this flag, requests from your host machine's browser would not be able to reach the Flask app running inside the container, even with port mapping (`-p 5000:5000`).
+The `--host=0.0.0.0` tells Flask to listen on ALL network connections, not just localhost. Without this, even though I mapped the port with `-p 5000:5000`, my browser still can't reach Flask inside the container because it's only listening internally.
 
 ---
 
@@ -59,7 +63,7 @@ For Windows PowerShell:
 docker run -d -p 5000:5000 -v "${PWD}/database.db:/app/database.db" --name flask-container_instance flask_container_image
 ```
 
-This mounts the local `database.db` file into the container at `/app/database.db`, ensuring data persists even when the container is removed and recreated.
+This connects my local database.db file to the one inside the container, so when I delete the container and make a new one, all my messages are still there!
 
 ---
 
@@ -68,9 +72,9 @@ This mounts the local `database.db` file into the container at `/app/database.db
 ### Question 6
 **In the `docker-compose.yml` setup, Nginx is configured to `proxy_pass http://flask-app:5000`. How does the Nginx container know the IP address of the `flask-app` container?**
 
-Docker Compose automatically creates a **custom bridge network** for all services defined in the `docker-compose.yml` file. Within this network, Docker provides built-in **DNS resolution** that maps service names to their container IP addresses.
+Docker Compose is pretty smart - it automatically creates a network for all the containers and gives them their own internal DNS system. 
 
-When Nginx needs to connect to `http://flask-app:5000`, Docker's internal DNS server resolves the hostname `flask-app` to the actual IP address of the Flask container. This eliminates the need to manually configure IP addresses and makes the setup portable and maintainable. The service name becomes the hostname within the Docker network.
+So when I use `flask-app` as the hostname, Docker's DNS just looks it up and finds which container that is and what its IP address is. It's like how website names get turned into IP addresses, but it happens automatically inside Docker. This is way easier than having to figure out IP addresses manually, especially since container IPs can change.
 
 ---
 
@@ -113,4 +117,4 @@ nginx:
     - flask-app
 ```
 
-This configuration allows Nginx to serve CSS, JavaScript, images, and other static files directly without involving the Flask application, improving performance and reducing load on the application server.
+This lets Nginx handle the CSS, JavaScript, and image files directly without bothering Flask, which makes everything faster.
