@@ -9,12 +9,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application files
-COPY . .
+COPY FlaskApp/ .
 
 # Inform Docker that the container listens on port 5000
 EXPOSE 5000
 
-# Initialize the database
 RUN python init_db.py
 
 # Define the command to run the application when the container starts
