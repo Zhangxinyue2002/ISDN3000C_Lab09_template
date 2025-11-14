@@ -2,17 +2,17 @@
 
 A simple yet comprehensive Flask-based guestbook web application with SQLite database integration, AJAX functionality, and Docker containerization with Nginx reverse proxy.
 
-## 📋 Features
+## Fetures
 
-- ✍️ **User Guestbook**: Submit and view messages with names and timestamps
-- 🎬 **Favorite Movies Display**: Shows a curated list of movies
-- 📡 **AJAX Form Submission**: Asynchronous message posting without page reload
-- ✅ **Input Validation**: 140-character message limit
-- 💾 **Persistent Storage**: SQLite database for message persistence
-- 🐳 **Docker Support**: Full containerization with Docker Compose
-- 🌐 **Nginx Reverse Proxy**: Production-ready setup with Nginx
+- **User Guestbook**: Submit and view messages with names and timestamps
+- **Favorite Movies Display**: Shows a curated list of movies
+- **AJAX Form Submission**: Asynchronous message posting without page reload
+- **Input Validation**: 140-character message limit
+- **Persistent Storage**: SQLite database for message persistence
+- **Docker Support**: Full containerization with Docker Compose
+- **Nginx Reverse Proxy**: Production-ready setup with Nginx
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 /FlaskApp/                    # Main project folder
@@ -33,7 +33,7 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 └── FlaskVenv/              # Virtual environment (not submitted)
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -81,7 +81,7 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 - `GET /health` - Health check endpoint
 - `GET /about` - About page
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ### Basic Docker Setup
 
@@ -147,7 +147,7 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
    docker rmi flask_container_image
    ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Database Schema
 
