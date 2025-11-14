@@ -52,7 +52,7 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 2. **Create and activate virtual environment**
    ```bash
    python3.11 -m venv FlaskVenv
-   source FlaskVenv/bin/activate  # On Windows: FlaskVenv\Scripts\activate
+   source FlaskVenv/bin/activate
    ```
 
 3. **Install dependencies**
