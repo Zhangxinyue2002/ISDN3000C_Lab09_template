@@ -5,7 +5,7 @@ services:
     container_name: flask_container_image
     volumes:
       # Mount the local database file into the container for persistence
-      - ./database.db:/app/database.db
+      - ./FlaskApp/database.db:/app/database.db
 
   # The Nginx Reverse Proxy
   nginx:

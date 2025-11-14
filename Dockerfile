@@ -8,8 +8,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application files
-COPY FlaskApp/ .
+# Copy the application files from FlaskApp directory
+COPY FlaskApp/app.py .
+COPY FlaskApp/init_db.py .
+COPY FlaskApp/schema.sql .
+COPY FlaskApp/templates ./templates
 
 # Inform Docker that the container listens on port 5000
 EXPOSE 5000

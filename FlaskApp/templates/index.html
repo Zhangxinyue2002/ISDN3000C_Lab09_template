@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Let's add some minimal styling -->
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1em; }
+        h1 { color: #333; }
+    </style>
+    <title>{{ page_title }}</title>
+</head>
+<body>
+    <h1>Welcome to the Guestbook!</h1>
+
+    <!-- Form for new messages -->
+    <hr>
+    <form method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" name="name" placeholder="Your name" required><br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea name="message" placeholder="Your message" rows="3" cols="40" required></textarea><br><br>
+
+        <button type="submit">Post Message</button>
+    </form>
+    <hr>
+
+    <h2>Current Entries:</h2>
+    
+    <!-- Note the change here: we now access message.name and message.message -->
+    {% for message in messages %}
+        <p>
+            <strong>{{ message['name'] }}</strong> 
+            <small>({{ message['created_at'] }})</small>:
+            <br>
+            {{ message['message'] }}
+        </p>
+    {% else %}
+        <p>No messages yet! Be the first.</p>
+    {% endfor %}
+
+    <h2>My Favorite Movies</h2>
+    <ol>
+    {% for movie in movies %}
+        <li>{{ movie }}</li>
+    {% endfor %}
+    </ol>
+
+    <!-- Add this <script> tag right before the closing </body> tag -->
+    <script>
+        // Select the form
+        const form = document.querySelector('form');
+
+        // Add an event listener for the 'submit' event
+        form.addEventListener('submit', async (event) => {
+            // Prevent the default page reload
+            event.preventDefault();
+
+            // Get the form data
+            const formData = new FormData(form);
+            const name = formData.get('name');
+            const message = formData.get('message');
+            
+            // Send the data to our new API endpoint
+            try {
+                const response = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, message }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // If successful, clear the form fields (Coding 4)
+                    alert('Message posted successfully!');
+                    document.querySelector('input[name="name"]').value = '';
+                    document.querySelector('textarea[name="message"]').value = '';
+                    // Reload to show the new message
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Submission failed:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
+</body>
+</html>

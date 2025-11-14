@@ -12,26 +12,6 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 - **Docker Support**: Full containerization with Docker Compose
 - **Nginx Reverse Proxy**: Production-ready setup with Nginx
 
-## Project Structure
-
-```
-/FlaskApp/                    # Main project folder
-├── app.py                    # Main Flask application
-├── init_db.py               # Database initialization script
-├── schema.sql               # Database schema definition
-├── database.db              # SQLite database file
-├── templates/
-│  └── index.html           # Main HTML template with AJAX
-├── nginx/
-│  └── nginx.conf           # Nginx reverse proxy configuration
-├── Dockerfile               # Docker image definition
-├── docker-compose.yml       # Multi-container orchestration
-├── requirements.txt         # Python dependencies
-├── questions.md             # Lab questions and answers
-├── .gitignore              # Git ignore rules
-├── README.md               # This file
-└── FlaskVenv/              # Virtual environment (not submitted)
-```
 
 ## Getting Started
 
@@ -46,7 +26,7 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 
 1. **Navigate to the FlaskApp directory**
    ```bash
-   cd FlaskApp
+   cd ISDN3000C_Lab09_template/FlaskApp
    ```
 
 2. **Create and activate virtual environment**
@@ -85,9 +65,9 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 
 ### Basic Docker Setup
 
-1. **Navigate to FlaskApp directory**
+1. **Navigate to project root directory**
    ```bash
-   cd FlaskApp
+   cd ISDN3000C_Lab09_template
    ```
 
 2. **Build Docker image**
@@ -114,9 +94,9 @@ A simple yet comprehensive Flask-based guestbook web application with SQLite dat
 
 ### Production Setup with Docker Compose (Nginx + Flask)
 
-1. **Navigate to FlaskApp directory**
+1. **Navigate to project root directory**
    ```bash
-   cd FlaskApp
+   cd ISDN3000C_Lab09_template
    ```
 
 2. **Build and start all services**
